@@ -1,0 +1,7 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+# On inclut également les routes de notre AppBundle, sans préfixe
+app_routes:
+    resource: "@AppBundle/Resources/config/routing.yml"

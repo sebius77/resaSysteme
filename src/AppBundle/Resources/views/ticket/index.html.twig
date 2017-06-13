@@ -1,0 +1,24 @@
+{# On utilise le layout général, qui se situe dans ce même AppBundle #}
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+
+{% block title %}
+    Billeterie - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <h2 class="text-center">Billeterie</h2>
+
+    <div id="datePicker">
+
+    </div>
+
+
+
+{% endblock %}
