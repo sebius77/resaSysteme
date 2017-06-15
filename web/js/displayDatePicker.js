@@ -1,19 +1,21 @@
 
-/*
- * Affichage du calendrier DatePicker
- *  avec en date de départ, la date d'aujourd'hui
- *  Un réservation maximale sur 2 mois
- *  Les dimanches (0) et les mardis (2) désactivés
- */
+
 
 $( function() {
 
     // get the current date
-
     $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+
+    /*
+     * Affichage du calendrier DatePicker
+     *  avec en date de départ, la date d'aujourd'hui
+     *  Un réservation maximale sur 2 mois
+     *  Les dimanches (0) et les mardis (2) désactivés
+     */
     $("#datePicker").datepicker({
         minDate: 0,
-
+        maxDate: "+2m",
+        altField: "#actualDate",
         // Désactivation des mardis et dimanche
         beforeShowDay: function(date) {
             if (date.getDay() === 0 || date.getDay() === 2 || ((date.getMonth() === 4) && (date.getDate() === 1))
@@ -25,13 +27,17 @@ $( function() {
             {
                 return [true, ''];
             }
+        },
+
+        onSelect: function(date) {
+            $('#jourCommande').text(date);
         }
+
+
         }
-
-
-
-
-
     );
+
+
+
 
 } );

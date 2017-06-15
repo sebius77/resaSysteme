@@ -15,10 +15,23 @@
 
     <h2 class="text-center">Billeterie</h2>
 
-    <div id="datePicker">
+    <div class="container"></div>
 
+    <div class="row">
+
+        <div class="col-md-7">
+            <input id="actualDate" type="hidden" name="actualDate">
+           <div id="datePicker"></div>
+        </div>
+        <div class="col-md-4">
+            <h3>Récapitulatif Commande</h3>
+            <div id="recap">
+                <ul>
+                    <li>Jour de la réservation : <span id="jourCommande"></span></li>
+                </ul>
+            </div>
+
+        </div>
     </div>
-
-
 
 {% endblock %}
