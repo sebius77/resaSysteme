@@ -14,16 +14,18 @@ class LoadCategorie implements FixtureInterface
     {
         // Liste des noms de catégorie à ajouter
         $names = array(
-            'normal',
-            'senior',
-            'enfant',
-            'reduit',
+            'normal' => 16,
+            'senior' => 12,
+            'enfant' => 8,
+            'reduit' => 10,
         );
 
-        foreach ($names as $name) {
+
+        foreach ($names as $name => $tarif) {
             // On crée la catégorie
             $category = new Categorie();
             $category->setNom($name);
+            $category->setTarif($tarif);
 
             // On la persiste
             $manager->persist($category);

@@ -31,9 +31,9 @@ class JourVisite
     /**
      * @var int
      *
-     * @ORM\Column(name="nbreResaJour", type="integer")
+     * @ORM\Column(name="billets_restants", type="integer")
      */
-    private $nbreResaJour;
+    private $billetsRestants;
 
 
     /**
@@ -70,28 +70,4 @@ class JourVisite
         return $this->dateVisite;
     }
 
-    /**
-     * Set nbreResaJour
-     *
-     * @param integer $nbreResaJour
-     *
-     * @return jourVisite
-     */
-    public function setNbreResaJour($nbreResaJour)
-    {
-        $this->nbreResaJour = $nbreResaJour;
-
-        return $this;
-    }
-
-    /**
-     * Get nbreResaJour
-     *
-     * @return int
-     */
-    public function getNbreResaJour()
-    {
-        return $this->nbreResaJour;
-    }
 }
-

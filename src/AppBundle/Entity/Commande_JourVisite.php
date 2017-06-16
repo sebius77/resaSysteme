@@ -36,13 +36,6 @@ class Commande_JourVisite
     private $jourVisite;
 
 
-    /**
-     * @var int
-     * @ORM\Column(name="nbre_total_billet_jour", type="integer")
-     */
-    private $nbreTotalBilletJour;
-
-
 
     /**
      * Get id
@@ -54,29 +47,6 @@ class Commande_JourVisite
         return $this->id;
     }
 
-    /**
-     * Set nbreTotalBilletJour
-     *
-     * @param integer $nbreTotalBilletJour
-     *
-     * @return Commande_JourVisite
-     */
-    public function setNbreTotalBilletJour($nbreTotalBilletJour)
-    {
-        $this->nbreTotalBilletJour = $nbreTotalBilletJour;
-
-        return $this;
-    }
-
-    /**
-     * Get nbreTotalBilletJour
-     *
-     * @return integer
-     */
-    public function getNbreTotalBilletJour()
-    {
-        return $this->nbreTotalBilletJour;
-    }
 
     /**
      * Set commande

@@ -37,8 +37,7 @@ class Commande
      */
     private $prixCommande;
 
-
-
+    
     /**
      * Get id
      *
@@ -50,30 +49,6 @@ class Commande
     }
 
 
-
-    /**
-     * Set nbreBillet
-     *
-     * @param integer $nbreBillet
-     *
-     * @return Commande
-     */
-    public function setNbreBillet($nbreBillet)
-    {
-        $this->nbreBillet = $nbreBillet;
-
-        return $this;
-    }
-
-    /**
-     * Get nbreBillet
-     *
-     * @return integer
-     */
-    public function getNbreBillet()
-    {
-        return $this->nbreBillet;
-    }
 
     /**
      * Set prixCommande
