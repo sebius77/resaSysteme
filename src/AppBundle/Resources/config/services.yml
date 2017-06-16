@@ -1,0 +1,5 @@
+# src/AppBundle/Resources/config/services.yml
+
+services:
+    app.stock:
+        class: AppBundle\Services\BilletsRestants
