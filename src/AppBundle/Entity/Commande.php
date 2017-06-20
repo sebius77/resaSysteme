@@ -37,6 +37,26 @@ class Commande
      */
     private $prixCommande;
 
+
+    /**
+     * 
+     * @ORM\Column(name="dateReservation", type="datetime", unique=false)
+     */
+    private $dateReservation;
+
+
+    /**
+     * @var integer
+     * @ORM\Column(name="nbreBillet", type="integer", unique=false)
+     */
+    private $nbreBillet;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="demiJournee", type="boolean", unique=false)
+     */
+    private $demiJournee;
+
     
     /**
      * Get id
@@ -113,5 +133,77 @@ class Commande
     public function getBillets()
     {
         return $this->billets;
+    }
+
+    /**
+     * Set dateReservation
+     *
+     * @param \DateTime $dateReservation
+     *
+     * @return Commande
+     */
+    public function setDateReservation($dateReservation)
+    {
+        $this->dateReservation = $dateReservation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateReservation
+     *
+     * @return \DateTime
+     */
+    public function getDateReservation()
+    {
+        return $this->dateReservation;
+    }
+
+    /**
+     * Set nbreBillet
+     *
+     * @param integer $nbreBillet
+     *
+     * @return Commande
+     */
+    public function setNbreBillet($nbreBillet)
+    {
+        $this->nbreBillet = $nbreBillet;
+
+        return $this;
+    }
+
+    /**
+     * Get nbreBillet
+     *
+     * @return integer
+     */
+    public function getNbreBillet()
+    {
+        return $this->nbreBillet;
+    }
+
+    /**
+     * Set demiJournee
+     *
+     * @param boolean $demiJournee
+     *
+     * @return Commande
+     */
+    public function setDemiJournee($demiJournee)
+    {
+        $this->demiJournee = $demiJournee;
+
+        return $this;
+    }
+
+    /**
+     * Get demiJournee
+     *
+     * @return boolean
+     */
+    public function getDemiJournee()
+    {
+        return $this->demiJournee;
     }
 }

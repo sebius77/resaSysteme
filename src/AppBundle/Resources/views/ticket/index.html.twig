@@ -18,10 +18,21 @@
     <div class="container"></div>
 
     <div class="row">
-
-        <div class="col-md-7">
-            <input id="actualDate" type="hidden" name="actualDate">
+        <div class="col-md-12">
+            <h1 class="text-center">Affichage des étapes de la commande</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
            <div id="datePicker"></div>
+        </div>
+        <div class="col-md-4">
+            {{ form_start(form) }}
+
+            {{ form_row(form.dateReservation, {'attr' : {'disabled': true}}) }}
+
+
+            {{ form_end(form) }}
         </div>
         <div class="col-md-4">
             <h3>Récapitulatif Commande</h3>

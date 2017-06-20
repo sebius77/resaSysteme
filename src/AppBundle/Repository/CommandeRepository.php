@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+
 /**
  * CommandeRepository
  *
@@ -10,4 +11,19 @@ namespace AppBundle\Repository;
  */
 class CommandeRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+    public function calculTotalBilletJour($dateResa)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('SUM(c.nbreBillet)')
+            ->where('c.dateReservation = :dateResa')
+            ->setParameter('dateResa', $dateResa)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+
 }
