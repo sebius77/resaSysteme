@@ -8,7 +8,7 @@
 
 
 {% block title %}
-    Billeterie - {{ parent() }}
+    Choix des billets - {{ parent() }}
 {% endblock %}
 
 {% block body %}
@@ -23,26 +23,14 @@
         </div>
     </div>
     <div class="row">
-    {% for message in app.flashes('notice') %}
-        <div class="alert alert-warning">
-            {{ message }}
-        </div>
-    {% endfor %}
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
 
     <div class="row">
-
-        <div class="col-md-4">
-           <div id="datePicker"></div>
-        </div>
-        <div class="col-md-4">
-
-            {{ form_start(form) }}
-            {{ form_row(form.dateReservation) }}
-            {{ form_end(form) }}
-
-
-        </div>
 
         <div class="col-md-4">
             <h3>Récapitulatif Commande</h3>

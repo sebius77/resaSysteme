@@ -13,6 +13,7 @@ $( function() {
         minDate: 0,
         maxDate: "+2m",
         altField: "#actualDate",
+        dateFormat: "dd-mm-yy",
         // Désactivation des mardis et dimanche
         beforeShowDay: function(date) {
 
@@ -37,7 +38,7 @@ $( function() {
          */
         onSelect: function(date) {
             //console.log(date);
-            $('#jourCommande').text(date);
+            //$('#jourCommande').text(date);
 
             $('#appbundle_commande_dateReservation').val(date);
 

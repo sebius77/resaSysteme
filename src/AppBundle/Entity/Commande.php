@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commande
@@ -41,6 +42,10 @@ class Commande
     /**
      * 
      * @ORM\Column(name="dateReservation", type="datetime", unique=false)
+     * @Assert\DateTime(
+     * format="d/m/Y",
+     * message="Vous devez sélectionner une date"
+     * )
      */
     private $dateReservation;
 
@@ -48,6 +53,12 @@ class Commande
     /**
      * @var integer
      * @ORM\Column(name="nbreBillet", type="integer", unique=false)
+     * @Assert\Range(
+     *     min = 1,
+     *     max = 10,
+     *     minMessage="Votre commande doit contenir au moins 1 billet",
+     *     maxMessage="Votre commande ne peux excéder 10 billets"
+     * )
      */
     private $nbreBillet;
 
@@ -55,7 +66,7 @@ class Commande
      * @var bool
      * @ORM\Column(name="demiJournee", type="boolean", unique=false)
      */
-    private $demiJournee;
+    private $demiJournee = false;
 
     
     /**
