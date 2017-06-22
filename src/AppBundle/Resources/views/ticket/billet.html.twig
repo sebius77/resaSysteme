@@ -29,18 +29,15 @@
             </div>
         {% endfor %}
     </div>
-
+    Nombre billet commandé {{ commande.nbreBillet }}
     <div class="row">
 
-        <div class="col-md-4">
-            <h3>Récapitulatif Commande</h3>
-            <div id="recap">
-                <ul>
-                    <li>Jour de la réservation : <span id="jourCommande"></span></li>
-                </ul>
-            </div>
 
+        {% for billet in 1..commande.nbreBillet %}
+        <div class="col-md-4">
+            {{ form(formBillet) }}
         </div>
+        {% endfor %}
     </div>
 
 {% endblock %}

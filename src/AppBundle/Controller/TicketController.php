@@ -4,7 +4,9 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Billet;
 use AppBundle\Entity\Commande;
+use AppBundle\Form\BilletType;
 use AppBundle\Form\CommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,7 +33,7 @@ class TicketController extends Controller {
             $em = $this->getDoctrine()->getManager();
 
             // Utilisation d'un repository pour avoir la somme de tous les
-            // billets pour tel jour
+            // billets pour le jour sélectionné
 
             $stockBillet = $em->getRepository('AppBundle:Commande')->calculTotalBilletJour($commande->getDateReservation());
 
@@ -40,13 +42,13 @@ class TicketController extends Controller {
             $stockRestant = 1000 - $stockBillet;
 
             // nombre billet
-            $billet = $commande->getNbreBillet();
+            $nbreBillet = $commande->getNbreBillet();
 
             // On récupère le service pour vérifier la disponibilité du stock
             $stock = $this->container->get('app.stock');
 
             // Si le stock est insuffisant, on renvoi au formulaire avec un message
-            if($stock->insuffisant($stockBillet,$billet))
+            if($stock->insuffisant($stockBillet,$nbreBillet))
             {
                 $request->getSession()->getFlashBag()->add('notice',
                     'Il n\, y a plus suffisament de places pour ce jour. Le stock est de : ' . $stockRestant);
@@ -55,8 +57,17 @@ class TicketController extends Controller {
             }
 
 
-            // Dans le cas ou tout est ok
-            return $this->render('AppBundle:Ticket:billet.html.twig');
+            // Dans le cas ou tout est ok, on persist la commande
+            $em->persist($commande);
+
+            $billet = new Billet();
+            $formBillet = $this->get('form.factory')->create(BilletType::class, $billet);
+
+
+            return $this->render('AppBundle:Ticket:billet.html.twig', array(
+                'commande' => $commande,
+                'formBillet' => $formBillet->createView(),
+            ));
 
         }
 
