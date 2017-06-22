@@ -36,7 +36,7 @@ class Commande
      *
      * @ORM\Column(name="prixCommande", type="integer")
      */
-    private $prixCommande;
+    private $prixCommande = 0;
 
 
     /**

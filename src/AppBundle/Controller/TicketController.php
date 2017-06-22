@@ -7,6 +7,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Billet;
 use AppBundle\Entity\Commande;
 use AppBundle\Form\BilletType;
+use AppBundle\Form\CommandeBilletType;
+use AppBundle\Form\CommandeJourType;
 use AppBundle\Form\CommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,7 +24,7 @@ class TicketController extends Controller {
     public function indexAction(Request $request)
     {
         $commande = new Commande();
-        $form = $this->get('form.factory')->create(CommandeType::class, $commande);
+        $form = $this->get('form.factory')->create(CommandeJourType::class, $commande);
 
 
         // Si le formulaire est renseigné et validé,
@@ -56,17 +58,15 @@ class TicketController extends Controller {
                 return $this->redirectToRoute('ticketing');
             }
 
-
             // Dans le cas ou tout est ok, on persist la commande
             $em->persist($commande);
+            // Puis on enregistre la commande dans la base
+            $em->flush();
 
-            $billet = new Billet();
-            $formBillet = $this->get('form.factory')->create(BilletType::class, $billet);
 
 
-            return $this->render('AppBundle:Ticket:billet.html.twig', array(
-                'commande' => $commande,
-                'formBillet' => $formBillet->createView(),
+            return $this->redirectToRoute('choixBillet', array(
+                'id' => $commande->getId(),
             ));
 
         }
@@ -76,16 +76,42 @@ class TicketController extends Controller {
         ));
     }
 
-
     /**
-     *
-     * @Route("/billet", name="billet")
-     *
+     * @param Request $request
+     * @Route("/choixBillet/{id}", name="choixBillet")
+     * @return
      */
-    public function billetAction(Request $request)
+    public function CommandeAction($id)
     {
 
-    }
+        $commande = new Commande();
 
+        $recupCommande = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Commande')
+            ->find($id)
+        ;
+
+
+        $formBillet = $this->get('form.factory')->create(CommandeBilletType::class, $commande);
+
+
+        // Si le formulaire est renseigné et validé,
+        // On vérifie que les champs sont valides
+        if($request->isMethod('POST') && $formBillet->handleRequest($request)->isValid()) {
+
+
+        }
+
+
+
+
+        return $this->render('AppBundle:Ticket:billet.html.twig', array(
+            'formBillet' => $formBillet->createView(),
+            'nbreBillet' => $recupCommande->getNbreBillet()
+        ));
+
+
+    }
 
 }

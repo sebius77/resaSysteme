@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 class CommandeType extends AbstractType
@@ -24,6 +25,14 @@ class CommandeType extends AbstractType
             ))
             ->add("nbreBillet", IntegerType::class)
             ->add("demiJournee", CheckboxType::class, array('required' => false))
+
+            ->add('billets', CollectionType::class, array(
+                'entry_type' => BilletType::class,
+                'allow_add' => true,
+                'allow_delete' => true
+            ))
+
+
             ->add('Je valide', SubmitType::class);
     }
     

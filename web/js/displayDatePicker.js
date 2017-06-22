@@ -40,7 +40,7 @@ $( function() {
             //console.log(date);
             //$('#jourCommande').text(date);
 
-            $('#appbundle_commande_dateReservation').val(date);
+            $('#commande_jour_dateReservation').val(date);
 
             // Ici une requ^te ajax qui tape sur l'url http://localhost/resaSysteme/web/app_dev.php/calculBillet
 

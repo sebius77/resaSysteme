@@ -22,7 +22,7 @@ class BilletType extends AbstractType
             ->add('prenom', TextType::class)
             ->add('dateNaissance', DateType::class)
             ->add('nationalite', TextType::class)
-            ->add('tarifReduit', CheckboxType::class)
+            ->add('tarifReduit', CheckboxType::class, array('required' => false))
             ;
     }
     
