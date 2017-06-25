@@ -3,3 +3,9 @@
 services:
     app.stock:
         class: AppBundle\Services\VerifStock
+
+    app.limit:
+        class: AppBundle\Services\HeureLimit
+
+    app.verifCat:
+        class: AppBundle\Services\VerifCategorie

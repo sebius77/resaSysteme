@@ -43,8 +43,11 @@ class Commande
      * 
      * @ORM\Column(name="dateReservation", type="datetime", unique=false)
      * @Assert\DateTime(
-     * format="d/m/Y",
-     * message="Vous devez sélectionner une date"
+     *     format="d/m/Y",
+     *     message="Vous devez sélectionner une date"
+     * )
+     * @Assert\NotBlank(
+     *     message="Vous devez sélectionner une date"
      * )
      */
     private $dateReservation;

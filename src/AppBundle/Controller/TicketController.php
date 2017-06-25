@@ -4,16 +4,18 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\Billet;
 use AppBundle\Entity\Commande;
-use AppBundle\Form\BilletType;
+use AppBundle\Entity\Billet;
 use AppBundle\Form\CommandeBilletType;
-use AppBundle\Form\CommandeJourType;
 use AppBundle\Form\CommandeType;
+use AppBundle\Form\CommandeDemiType;
+use AppBundle\Form\CommandeJourType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TicketController extends Controller {
 
@@ -24,27 +26,37 @@ class TicketController extends Controller {
     public function indexAction(Request $request)
     {
         $commande = new Commande();
-        $form = $this->get('form.factory')->create(CommandeJourType::class, $commande);
+
+        // On récupère le service pour vérifier si - de 14h ou plus
+        $limit = $this->container->get('app.limit');
+
+        if($limit->estDepassee()) {
+            $form = $this->get('form.factory')->create(CommandeDemiType::class, $commande);
+        } else {
+            $form = $this->get('form.factory')->create(CommandeJourType::class, $commande);
+        }
 
 
         // Si le formulaire est renseigné et validé,
         // On vérifie que les champs sont valides
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            // Test pour connaitre la disponibilité des billets
+            //$commande = $form->getData();
+
+            // On fait appel à l'entityManager
             $em = $this->getDoctrine()->getManager();
 
             // Utilisation d'un repository pour avoir la somme de tous les
             // billets pour le jour sélectionné
-
             $stockBillet = $em->getRepository('AppBundle:Commande')->calculTotalBilletJour($commande->getDateReservation());
 
             $stockBillet = (int) $stockBillet[0][1];
-
             $stockRestant = 1000 - $stockBillet;
+
 
             // nombre billet
             $nbreBillet = $commande->getNbreBillet();
+
 
             // On récupère le service pour vérifier la disponibilité du stock
             $stock = $this->container->get('app.stock');
@@ -58,16 +70,21 @@ class TicketController extends Controller {
                 return $this->redirectToRoute('ticketing');
             }
 
-            // Dans le cas ou tout est ok, on persist la commande
-            $em->persist($commande);
-            // Puis on enregistre la commande dans la base
-            $em->flush();
 
 
+            // On ajout les billets à la commande
+            for($i=1; $i <= $nbreBillet; $i++)
+            {
+                $billet = new Billet();
+                $commande->addBillet($billet);
+            }
 
-            return $this->redirectToRoute('choixBillet', array(
-                'id' => $commande->getId(),
-            ));
+            $session = $request->getSession();
+            $session->set('commande', $commande);
+
+
+            // On va à l'étape suivante
+            return $this->redirectToRoute('choixBillet');
 
         }
 
@@ -76,42 +93,122 @@ class TicketController extends Controller {
         ));
     }
 
+
+
+
     /**
      * @param Request $request
-     * @Route("/choixBillet/{id}", name="choixBillet")
-     * @return
+     * @Route("/choixBillet", name="choixBillet")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function CommandeAction($id)
+    public function billetAction(Request $request)
     {
 
-        $commande = new Commande();
+        $commande = $request->getSession()->get('commande');
 
-        $recupCommande = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:Commande')
-            ->find($id)
-        ;
+       $formBillet = $this->get('form.factory')->create(CommandeType::class, $commande);
 
-
-        $formBillet = $this->get('form.factory')->create(CommandeBilletType::class, $commande);
-
-
-        // Si le formulaire est renseigné et validé,
-        // On vérifie que les champs sont valides
         if($request->isMethod('POST') && $formBillet->handleRequest($request)->isValid()) {
 
+            // on appelle le service app.verifCat pour déterminer la catégorie du billet
+            $verifCat = $this->container->get('app.verifCat');
 
+            // On récupère tous les billets de la commande
+            $billets = $commande->getBillets();
+
+            // Je fais appel au repository pour effectuer une recherche sur l'entité categorie
+            $repository = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('AppBundle:Categorie');
+
+            // Boucle pour l'ajout des catégories aux billets
+            foreach($billets as $billet)
+            {
+                // Pour chaque billet, je récupère la date de naissance
+                $birthday = $billet->getDateNaissance();
+
+                // On utilise la méthode du service verifCat pour récupérer les
+                // catégories des différents billets en fonction des dates
+                $cat = $verifCat->determineCat($birthday);
+
+
+                // Ici nous effectuerons un test dans le cas ou est coché tarif réduit
+                // et la catégorie n'accepte pas le tarif réduit
+
+
+
+
+                // En fonction du nom de la catégorie, nous récupérons l'oblet catégorie
+                // avec tout ses attributs
+                $categorie = $repository->findOneBy(array('nom' => $cat));
+
+                // Puis si la catégorie existe, nous ajoutons la catégorie au billet
+                // Si la catégorie n'existe pas avec la date renseignée
+                // Cela signifie que le billet est gratuit et qu'il s'agit d'un enfant
+                // de moins de 4 ans
+                if(!null == $categorie)
+                {
+                    $billet->setCategorie($categorie);
+                } else {
+
+                    // Cas pour une date correspondant à un enfant de moins de 4 ans
+
+                }
+
+            }
+
+            return $this->redirectToRoute('verifCat');
         }
 
 
-
-
-        return $this->render('AppBundle:Ticket:billet.html.twig', array(
-            'formBillet' => $formBillet->createView(),
-            'nbreBillet' => $recupCommande->getNbreBillet()
-        ));
-
+       return $this->render('AppBundle:Ticket:billet.html.twig', array(
+           'formBillet' => $formBillet->createView(),
+           'nbreBillet' => $commande->getNbreBillet()
+       ));
 
     }
+
+
+    /**
+     * @param Request $request
+     * * @Route("/verifCat", name="verifCat")
+     * * * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function verifCategorie(Request $request)
+    {
+
+        $session = $request->getSession();
+        $commande = $session->get('commande');
+
+        $billets = $commande->getBillets();
+
+        die(var_dump($billets));
+
+        /*
+        return $this->render('AppBundle:Ticket:recap.html.twig', array(
+            'commande' => $commande,
+
+        ));
+        */
+    }
+
+
+
+    /**
+     * @param Request $request
+     * @Route("/checkDate", name="checkDate")
+     * * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function checkDateAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $date = $request->get('cle');
+        }
+        // Checker la date
+        return new JsonResponse(['test' => 'reponse AJAX']);
+    }
+
 
 }

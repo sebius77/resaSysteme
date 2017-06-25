@@ -8,8 +8,11 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 
 class CommandeType extends AbstractType
@@ -24,8 +27,10 @@ class CommandeType extends AbstractType
                 'widget' => 'single_text'
             ))
             ->add("nbreBillet", IntegerType::class)
-            ->add("demiJournee", CheckboxType::class, array('required' => false))
+            ->add("demiJournee", CheckboxType::class, array(
+                'required' => false,
 
+            ))
             ->add('billets', CollectionType::class, array(
                 'entry_type' => BilletType::class,
                 'allow_add' => true,
@@ -33,17 +38,21 @@ class CommandeType extends AbstractType
             ))
 
 
-            ->add('Je valide', SubmitType::class);
+            ->add('Etape suivante', SubmitType::class)
+        ;
+
+
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Commande'
+            'data_class' => 'AppBundle\Entity\Commande',
         ));
+
     }
 
     /**

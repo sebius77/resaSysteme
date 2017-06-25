@@ -37,20 +37,33 @@ $( function() {
          * En retour nous verrons le nombre de place restante
          */
         onSelect: function(date) {
-            //console.log(date);
-            //$('#jourCommande').text(date);
 
-            $('#commande_jour_dateReservation').val(date);
+            var jour = $('#commande_jour_dateReservation');
+            var demi = $('#commande_demi_dateReservation');
+
+
+            if (jour)
+            {
+                $('#commande_jour_dateReservation').val(date);
+            }
+
+            if (demi)
+            {
+                $('#commande_demi_dateReservation').val(date);
+            }
+
+
 
             // Ici une requ^te ajax qui tape sur l'url http://localhost/resaSysteme/web/app_dev.php/calculBillet
 
-            /* Je n'arrive pas à taper sur le contrôleur avec ma requête Ajax erreur #14683
-            * Je vais donc faire autrement
+            // Je n'arrive pas à taper sur le contrôleur avec ma requête Ajax erreur #14683
+
             $.ajax({
                 type: 'POST',
-                url: 'calculBillet',
+                url: url,
+                data: { 'cle' : 'valeur'},
                 success: function(data) {
-                    console.log(data);
+                    console.log(data.test);
                 },
                 error: function(xhr,statut,error) {
                     console.log('xhr : ' + xhr);
@@ -58,7 +71,7 @@ $( function() {
                     console.log('error : ' + error);
                 }
             });
-            */
+
 
         }
 

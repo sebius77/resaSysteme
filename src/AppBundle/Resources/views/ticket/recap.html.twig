@@ -1,0 +1,41 @@
+{# On utilise le layout général, qui se situe dans ce même AppBundle #}
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+
+{% block title %}
+    Récapitulatif commande - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <h2 class="text-center">Billeterie</h2>
+
+    <div class="container"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">Affichage des étapes de la commande</h1>
+        </div>
+    </div>
+    <div class="row">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        {% for billet in commande.billets %}
+            {{ billet.nom }}
+            {{ billet.prenom }}
+            {{ billet.dateNaissance|date }}
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
