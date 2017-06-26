@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Billet
@@ -67,6 +68,9 @@ class Billet
      * @ORM\ManyToOne(targetEntity="Categorie", inversedBy="Categorie")
      */
     private $categorie;
+
+
+
 
     /**
      * Get id
@@ -246,4 +250,31 @@ class Billet
     {
         return $this->categorie;
     }
+
+    /**
+     *
+     * @Assert\IsTrue(
+     *     message="Ce billet ne peut bénéficier du tarif réduit"
+     * )
+     */
+    public function isBilletValid()
+    {
+        $tarifReduit = $this->getTarifReduit();
+        $categorie = $this->getCategorie()->getNom();
+
+        if(($tarifReduit === true) && ($categorie === 'normal'))
+        {
+            return true;
+        } else if(($tarifReduit === false))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+
+
+    }
+
+
 }

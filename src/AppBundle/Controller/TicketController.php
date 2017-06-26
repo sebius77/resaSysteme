@@ -6,7 +6,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Commande;
 use AppBundle\Entity\Billet;
-use AppBundle\Form\CommandeBilletType;
 use AppBundle\Form\CommandeType;
 use AppBundle\Form\CommandeDemiType;
 use AppBundle\Form\CommandeJourType;
@@ -14,8 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TicketController extends Controller {
 
@@ -30,18 +27,25 @@ class TicketController extends Controller {
         // On récupère le service pour vérifier si - de 14h ou plus
         $limit = $this->container->get('app.limit');
 
-        if($limit->estDepassee()) {
-            $form = $this->get('form.factory')->create(CommandeDemiType::class, $commande);
-        } else {
-            $form = $this->get('form.factory')->create(CommandeJourType::class, $commande);
-        }
-
+        $form = $this->get('form.factory')->create(CommandeJourType::class, $commande);
 
         // Si le formulaire est renseigné et validé,
         // On vérifie que les champs sont valides
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            //$commande = $form->getData();
+            $jourResa = $commande->getDateReservation();
+            $demiJournee = $commande->getDemiJournee();
+
+            if($limit->estDepassee($jourResa) && ($demiJournee === false)) {
+
+                $request->getSession()->getFlashBag()->add('notice', 'Vous souhaitez réservez sur la journée alors qu\'
+                 il est 14h passé');
+                return $this->redirectToRoute('ticketing');
+            }
+
+
+
+
 
             // On fait appel à l'entityManager
             $em = $this->getDoctrine()->getManager();
@@ -132,13 +136,6 @@ class TicketController extends Controller {
                 // catégories des différents billets en fonction des dates
                 $cat = $verifCat->determineCat($birthday);
 
-
-                // Ici nous effectuerons un test dans le cas ou est coché tarif réduit
-                // et la catégorie n'accepte pas le tarif réduit
-
-
-
-
                 // En fonction du nom de la catégorie, nous récupérons l'oblet catégorie
                 // avec tout ses attributs
                 $categorie = $repository->findOneBy(array('nom' => $cat));
@@ -149,13 +146,33 @@ class TicketController extends Controller {
                 // de moins de 4 ans
                 if(!null == $categorie)
                 {
+                    if(($categorie === 'normal') && ($billet->getTarifReduit() === true))
+                    {
+                        $categorie = 'reduit';
+                    }
                     $billet->setCategorie($categorie);
                 } else {
 
                     // Cas pour une date correspondant à un enfant de moins de 4 ans
+                    $request->getSession()->getFlashBag()->add('notice', 'Pour les enfants de moins de 4ans l\'entrée est gratuite');
+                    return $this->redirectToRoute('choixBillet');
 
                 }
 
+                // Ici nous effectuerons un test dans le cas ou est coché tarif réduit
+                // et la catégorie n'accepte pas le tarif réduit
+                $billet->isBilletValid();
+
+                $validator = $this->get('validator');
+
+                $listErrors = $validator->validate($billet);
+
+
+                if(count($listErrors) > 0)
+                {
+                    $request->getSession()->getFlashBag()->add('notice', 'Un billet ne peut bénéficier du tarif réduit');
+                    return $this->redirectToRoute('choixBillet');
+                }
             }
 
             return $this->redirectToRoute('verifCat');
@@ -181,16 +198,23 @@ class TicketController extends Controller {
         $session = $request->getSession();
         $commande = $session->get('commande');
 
-        $billets = $commande->getBillets();
+        //$billets = $commande->getBillets();
+        //die(var_dump($billets));
 
-        die(var_dump($billets));
+        $prixCommande = $this->get('app.prixCommande');
+        $prixcommande = $prixCommande->calculTotal($commande);
 
-        /*
+        $commande->setPrixCommande($prixCommande);
+
+        die(var_dump($prixCommande));
+
+
+
         return $this->render('AppBundle:Ticket:recap.html.twig', array(
             'commande' => $commande,
 
         ));
-        */
+
     }
 
 

@@ -9,3 +9,6 @@ services:
 
     app.verifCat:
         class: AppBundle\Services\VerifCategorie
+
+    app.prixCommande:
+        class: AppBundle\Services\PrixCommande
