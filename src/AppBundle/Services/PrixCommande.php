@@ -34,6 +34,7 @@ class PrixCommande {
             $total = $sousTotal;
         }
 
+
         return $total;
 
     }

@@ -71,6 +71,19 @@ class Commande
      */
     private $demiJournee = false;
 
+
+    /**
+     * @var
+     * @ORM\Column(name="dateCommande", type="datetime", unique=false)
+     */
+    private $dateCommande;
+
+    /**
+     * @var
+     * @ORM\Column(name="mail", type="string",length=255, unique=true)
+     */
+    private $mail;
+
     
     /**
      * Get id
@@ -113,6 +126,7 @@ class Commande
     public function __construct()
     {
         $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dateCommande = new \DateTime();
     }
 
     /**
@@ -219,5 +233,53 @@ class Commande
     public function getDemiJournee()
     {
         return $this->demiJournee;
+    }
+
+    /**
+     * Set dateCommande
+     *
+     * @param \DateTime $dateCommande
+     *
+     * @return Commande
+     */
+    public function setDateCommande($dateCommande)
+    {
+        $this->dateCommande = $dateCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCommande
+     *
+     * @return \DateTime
+     */
+    public function getDateCommande()
+    {
+        return $this->dateCommande;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     *
+     * @return Commande
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
     }
 }

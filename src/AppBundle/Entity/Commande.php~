@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commande
@@ -35,12 +36,19 @@ class Commande
      *
      * @ORM\Column(name="prixCommande", type="integer")
      */
-    private $prixCommande;
+    private $prixCommande = 0;
 
 
     /**
      * 
      * @ORM\Column(name="dateReservation", type="datetime", unique=false)
+     * @Assert\DateTime(
+     *     format="d/m/Y",
+     *     message="Vous devez sélectionner une date"
+     * )
+     * @Assert\NotBlank(
+     *     message="Vous devez sélectionner une date"
+     * )
      */
     private $dateReservation;
 
@@ -48,6 +56,12 @@ class Commande
     /**
      * @var integer
      * @ORM\Column(name="nbreBillet", type="integer", unique=false)
+     * @Assert\Range(
+     *     min = 1,
+     *     max = 10,
+     *     minMessage="Votre commande doit contenir au moins 1 billet",
+     *     maxMessage="Votre commande ne peux excéder 10 billets"
+     * )
      */
     private $nbreBillet;
 
@@ -55,7 +69,20 @@ class Commande
      * @var bool
      * @ORM\Column(name="demiJournee", type="boolean", unique=false)
      */
-    private $demiJournee;
+    private $demiJournee = false;
+
+
+    /**
+     * @var
+     * @ORM\Column(name="dateCommande", type="datetime", unique=false)
+     */
+    private $dateCommande;
+
+    /**
+     * @var
+     * @ORM\Column(name="mail", type="string",length=255, unique=true)
+     */
+    private $mail;
 
     
     /**
@@ -99,6 +126,7 @@ class Commande
     public function __construct()
     {
         $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dateCommande = new \DateTime();
     }
 
     /**
@@ -181,5 +209,29 @@ class Commande
     public function getNbreBillet()
     {
         return $this->nbreBillet;
+    }
+
+    /**
+     * Set demiJournee
+     *
+     * @param boolean $demiJournee
+     *
+     * @return Commande
+     */
+    public function setDemiJournee($demiJournee)
+    {
+        $this->demiJournee = $demiJournee;
+
+        return $this;
+    }
+
+    /**
+     * Get demiJournee
+     *
+     * @return boolean
+     */
+    public function getDemiJournee()
+    {
+        return $this->demiJournee;
     }
 }

@@ -29,12 +29,25 @@
             </div>
         {% endfor %}
     </div>
+    Nombre de billet : {{ commande.nbreBillet }}
+
+
     <div class="row">
         {% for billet in commande.billets %}
             {{ billet.nom }}
             {{ billet.prenom }}
-            {{ billet.dateNaissance|date }}
+            {{ billet.dateNaissance|date("d/m/Y") }}
+            {{ billet.categorie.nom }}
+            {{ billet.categorie.tarif }}
+            <br />
         {% endfor %}
+
+        TOTAL Commande : €{{ commande.prixCommande }}
+
+    </div>
+
+    <div class="row">
+        {{ form(form) }}
     </div>
 
 

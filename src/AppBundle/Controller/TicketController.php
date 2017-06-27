@@ -6,6 +6,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Commande;
 use AppBundle\Entity\Billet;
+use AppBundle\Form\CommandeConfirmType;
 use AppBundle\Form\CommandeType;
 use AppBundle\Form\CommandeDemiType;
 use AppBundle\Form\CommandeJourType;
@@ -198,24 +199,44 @@ class TicketController extends Controller {
         $session = $request->getSession();
         $commande = $session->get('commande');
 
-        //$billets = $commande->getBillets();
-        //die(var_dump($billets));
-
         $prixCommande = $this->get('app.prixCommande');
-        $prixcommande = $prixCommande->calculTotal($commande);
+        $totalCommande = $prixCommande->calculTotal($commande);
 
-        $commande->setPrixCommande($prixCommande);
+        $commande->setPrixCommande($totalCommande);
 
-        die(var_dump($prixCommande));
+
+        return $this->redirectToRoute('recapCommande');
+
+    }
+
+
+    /**
+     * @param Request $request
+     * * * @Route("/recapCommande", name="recapCommande")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function recapCommande(Request $request)
+    {
+
+        $session = $request->getSession();
+        $commande = $session->get('commande');
+
+
+        $form = $this->get('form.factory')->create(CommandeConfirmType::class, $commande);
+
+
+
+
 
 
 
         return $this->render('AppBundle:Ticket:recap.html.twig', array(
             'commande' => $commande,
+            'form' => $form->createView()
 
         ));
-
     }
+
 
 
 
