@@ -8,7 +8,6 @@ use AppBundle\Entity\Commande;
 use AppBundle\Entity\Billet;
 use AppBundle\Form\CommandeConfirmType;
 use AppBundle\Form\CommandeType;
-use AppBundle\Form\CommandeDemiType;
 use AppBundle\Form\CommandeJourType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -145,7 +144,7 @@ class TicketController extends Controller {
                 // Si la catégorie n'existe pas avec la date renseignée
                 // Cela signifie que le billet est gratuit et qu'il s'agit d'un enfant
                 // de moins de 4 ans
-                if(!null == $categorie)
+                if(!null === $categorie)
                 {
                     if(($categorie === 'normal') && ($billet->getTarifReduit() === true))
                     {
@@ -225,8 +224,12 @@ class TicketController extends Controller {
         $form = $this->get('form.factory')->create(CommandeConfirmType::class, $commande);
 
 
+        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+        {
 
+            return $this->redirectToRoute('orderPrepare');
 
+        }
 
 
 
@@ -236,6 +239,9 @@ class TicketController extends Controller {
 
         ));
     }
+
+
+
 
 
 

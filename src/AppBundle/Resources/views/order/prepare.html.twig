@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/order.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <h1>Paiement de la commande</h1>
+            </div>
+            <div class="row">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="status">
+                <p>
+                    Votre commande a un montant de : {{ commande.prixCommande }} € <br />
+                Pour régler votre commande veuillez cliquer sur le bouton suivant.
+                <form action="{{ path('order_checkout') }}" method="POST">
+                    <script
+                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="pk_test_bgM0TaP1tNjlrMFpsntvab2m"
+                            data-amount="{{ prixCommande }}"
+                            data-name="Demo Site"
+                            data-description="Widget"
+                            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                            data-locale="auto"
+                            data-zip-code="false"
+                            data-currency="eur">
+                    </script>
+                </form>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

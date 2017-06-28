@@ -12,3 +12,6 @@ services:
 
     app.prixCommande:
         class: AppBundle\Services\PrixCommande
+
+    app.paiementStripe:
+        class: AppBundle\Services\PaiementStripe
