@@ -8,12 +8,18 @@
 
 
 {% block title %}
-    Billeterie - {{ parent() }}
+    Billetterie - {{ parent() }}
 {% endblock %}
 
 {% block body %}
 
-    <h2 class="text-center">Billeterie</h2>
+
+    <div class="row">
+        <div id="billetterie" class="col-md-12">
+            <h3 class="text-center">Billeterie</h3>
+        </div>
+    </div>
+
 
     <div class="container"></div>
 
@@ -32,6 +38,9 @@
 
     <div class="row">
 
+        <div class="col-md-8">
+            <img id="panel-img-1" src="{{ asset('images/louvre2.jpg') }}" class="img-responsive">
+        </div>
         <div class="col-md-4">
            <div id="datePicker"></div>
         </div>
@@ -41,18 +50,8 @@
             {{ form_row(form.dateReservation) }}
             {{ form_end(form) }}
 
-
         </div>
 
-        <div class="col-md-4">
-            <h3>Récapitulatif Commande</h3>
-            <div id="recap">
-                <ul>
-                    <li>Jour de la réservation : <span id="jourCommande"></span></li>
-                </ul>
-            </div>
-
-        </div>
     </div>
 
 {% endblock %}

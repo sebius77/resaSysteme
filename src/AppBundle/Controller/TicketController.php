@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\Commande;
 use AppBundle\Entity\Billet;
@@ -43,10 +41,6 @@ class TicketController extends Controller {
                 return $this->redirectToRoute('ticketing');
             }
 
-
-
-
-
             // On fait appel à l'entityManager
             $em = $this->getDoctrine()->getManager();
 
@@ -57,10 +51,8 @@ class TicketController extends Controller {
             $stockBillet = (int) $stockBillet[0][1];
             $stockRestant = 1000 - $stockBillet;
 
-
             // nombre billet
             $nbreBillet = $commande->getNbreBillet();
-
 
             // On récupère le service pour vérifier la disponibilité du stock
             $stock = $this->container->get('app.stock');
@@ -73,8 +65,6 @@ class TicketController extends Controller {
 
                 return $this->redirectToRoute('ticketing');
             }
-
-
 
             // On ajout les billets à la commande
             for($i=1; $i <= $nbreBillet; $i++)
@@ -96,8 +86,6 @@ class TicketController extends Controller {
             'form' => $form->createView(),
         ));
     }
-
-
 
 
     /**
@@ -144,13 +132,17 @@ class TicketController extends Controller {
                 // Si la catégorie n'existe pas avec la date renseignée
                 // Cela signifie que le billet est gratuit et qu'il s'agit d'un enfant
                 // de moins de 4 ans
-                if(!null === $categorie)
+
+
+                if($categorie != null)
                 {
-                    if(($categorie === 'normal') && ($billet->getTarifReduit() === true))
+                    if(($categorie->getNom() === 'normal') && ($billet->getTarifReduit() === true))
                     {
-                        $categorie = 'reduit';
+                        $categorie = $repository->findOneBy(array('nom' => 'reduit'));
                     }
                     $billet->setCategorie($categorie);
+
+
                 } else {
 
                     // Cas pour une date correspondant à un enfant de moins de 4 ans
@@ -167,7 +159,8 @@ class TicketController extends Controller {
 
                 $listErrors = $validator->validate($billet);
 
-
+                // Si une erreur est levé, nous envoyons un message pour indiquer qu'un des billets
+                // ne peut bénéficier du tarif réduit
                 if(count($listErrors) > 0)
                 {
                     $request->getSession()->getFlashBag()->add('notice', 'Un billet ne peut bénéficier du tarif réduit');
@@ -239,6 +232,10 @@ class TicketController extends Controller {
 
         ));
     }
+
+
+
+
 
 
 

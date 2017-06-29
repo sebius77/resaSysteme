@@ -18,3 +18,8 @@
     border-bottom-width: 2px;
     border-bottom-style: solid;
 }
+
+.panel-body a span{
+    position:absolute;
+    display:none;
+}

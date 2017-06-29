@@ -262,10 +262,7 @@ class Billet
         $tarifReduit = $this->getTarifReduit();
         $categorie = $this->getCategorie()->getNom();
 
-        if(($tarifReduit === true) && ($categorie === 'normal'))
-        {
-            return true;
-        } else if(($tarifReduit === false))
+        if(($tarifReduit === true) && ($categorie === 'reduit'))
         {
             return true;
         } else
