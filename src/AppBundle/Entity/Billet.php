@@ -77,6 +77,10 @@ class Billet
     private $categorie;
 
 
+    /**
+     * @var bool
+     */
+    private $valid;
 
 
     /**
@@ -259,13 +263,16 @@ class Billet
     }
 
     /**
-     *
+     * @param bool
+     * @return bool
      * @Assert\IsTrue(
      *     message="Ce billet ne peut bénéficier du tarif réduit"
      * )
      */
-    public function isBilletValid()
+    public function isValid()
     {
+        return $this->valid;
+       /*
         $tarifReduit = $this->getTarifReduit();
         $categorie = $this->getCategorie()->getNom();
 
@@ -279,8 +286,16 @@ class Billet
         {
             return false;
         }
+       */
 
+    }
 
+    /**
+     * @param $val
+     */
+    public function setValid($val)
+    {
+        $this->valid = $val;
     }
 
 

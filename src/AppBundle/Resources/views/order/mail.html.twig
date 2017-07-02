@@ -1,14 +1,12 @@
 <img src="{{ image }}" />
+<h2>Récapitulatif de votre commande</h2>
 <br/>
-"Récapitulatif de votre commande :"  commande.name
-<br/>
-{{ commande.mail }}
-<br/>
-{{ commande.dateReservation|date('d/m/Y') }}
+
+<strong>Date réservation : </strong>{{ commande.dateReservation|date('d/m/Y') }}
 <br/>
 
 <table>
-    <caption> "Vos billets : " </caption>
+    <caption>Vos billets </caption>
     <thead>
     <tr>
         <th>Nom</th>
@@ -22,24 +20,22 @@
     <tr>
         <th colspan="4">Total Commande</th>
         <th>
-            TOTAL
+            {{ commande.prixCommande }} €
         </th>
     </tr>
     </tfoot>
     <tbody>
 
-    {#{% for ticket in commande.tickets %}#}
+    {% for billet in commande.billets %}
         <tr>
-            <td>Nom ticket</td>
-            <td>Prénom ticket</td>
+            <td>{{ billet.nom }}</td>
+            <td>{{ billet.prenom }}</td>
             <td>Pays ticket</td>
-            <td>
-                Catégorie ticket
-            </td>
+            <td>{{ billet.categorie.nom }}</td>
 
-            <td>Prix ticket</td>
+            <td>{{ billet.categorie.tarif }}</td>
         </tr>
-    {#{% endfor %}#}
+    {% endfor %}
 
     </tbody>
 </table>

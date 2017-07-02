@@ -51,7 +51,7 @@ class OrderController extends Controller {
 
         if($paiement)
         {
-            
+
             $mail = $this->get('app.envoiMail');
             $mail->sendMail($commande);
 

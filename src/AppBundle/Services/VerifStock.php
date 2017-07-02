@@ -17,7 +17,11 @@ class VerifStock {
     public function insuffisant($stock, $billetJour)
     {
 
-        $resultat = $stock + $billetJour;
+        $stockBillet = (int) $stock[0][1];
+        $stockRestant = 1000 - $stockBillet;
+
+
+        $resultat = $stockRestant + $billetJour;
         if($resultat > 1000) {
             return true;
         }

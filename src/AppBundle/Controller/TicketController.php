@@ -49,8 +49,8 @@ class TicketController extends Controller {
             // billets pour le jour sélectionné
             $stockBillet = $em->getRepository('AppBundle:Commande')->calculTotalBilletJour($commande->getDateReservation());
 
-            $stockBillet = (int) $stockBillet[0][1];
-            $stockRestant = 1000 - $stockBillet;
+            //$stockBillet = (int) $stockBillet[0][1];
+            //$stockRestant = 1000 - $stockBillet;
 
             // nombre billet
             $nbreBillet = $commande->getNbreBillet();
@@ -98,6 +98,7 @@ class TicketController extends Controller {
     public function billetAction(Request $request)
     {
 
+        // On récupère la commande de la session
         $commande = $request->getSession()->get('commande');
 
        $formBillet = $this->get('form.factory')->create(CommandeType::class, $commande);
@@ -141,6 +142,10 @@ class TicketController extends Controller {
                     if(($categorie->getNom() === 'normal') && ($billet->getTarifReduit() === true))
                     {
                         $categorie = $repository->findOneBy(array('nom' => 'reduit'));
+                        $billet->setValid(true);
+                    } else if ($billet->getTarifReduit() === true)
+                    {
+                        $billet->setValid(false);
                     }
                     $billet->setCategorie($categorie);
 
@@ -153,15 +158,7 @@ class TicketController extends Controller {
 
                 }
 
-                if($categorie->getNom() != 'normal') {
-                    // Ici nous effectuerons un test dans le cas ou est coché tarif réduit
-                    // et la catégorie n'est pas la catégorie "normal"
-                    $billet->isBilletValid();
-
-                }
-
                 $validator = $this->get('validator');
-
                 $listErrors = $validator->validate($billet);
 
                 // Si une erreur est levé, nous envoyons un message pour indiquer qu'un des billets
@@ -171,6 +168,7 @@ class TicketController extends Controller {
                     $request->getSession()->getFlashBag()->add('notice', 'Un billet ne peut bénéficier du tarif réduit');
                     return $this->redirectToRoute('choixBillet');
                 }
+
             }
 
             return $this->redirectToRoute('verifCat');
