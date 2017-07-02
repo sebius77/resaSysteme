@@ -51,6 +51,16 @@ class OrderController extends Controller {
 
         if($paiement)
         {
+            
+            $mail = $this->get('app.envoiMail');
+            $mail->sendMail($commande);
+
+            // On fait appel à l'EntityManager pour enregistrer la commande en base.
+            //$em = $this->getDoctrine()->getManager();
+            //$em->persist($commande);
+            //$em->flush();
+
+
             $this->addFlash("success","Votre paiement est validé!!!");
             return $this->redirectToRoute("orderPrepare");
         } else
@@ -59,6 +69,5 @@ class OrderController extends Controller {
             return $this->redirectToRoute("orderPrepare");
         }
     }
-
 
 }

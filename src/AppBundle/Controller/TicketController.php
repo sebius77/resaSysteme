@@ -20,6 +20,7 @@ class TicketController extends Controller {
      */
     public function indexAction(Request $request)
     {
+
         $commande = new Commande();
 
         // On récupère le service pour vérifier si - de 14h ou plus
@@ -81,6 +82,7 @@ class TicketController extends Controller {
             return $this->redirectToRoute('choixBillet');
 
         }
+
 
         return $this->render('AppBundle:Ticket:index.html.twig', array(
             'form' => $form->createView(),
@@ -151,9 +153,12 @@ class TicketController extends Controller {
 
                 }
 
-                // Ici nous effectuerons un test dans le cas ou est coché tarif réduit
-                // et la catégorie n'accepte pas le tarif réduit
-                $billet->isBilletValid();
+                if($categorie->getNom() != 'normal') {
+                    // Ici nous effectuerons un test dans le cas ou est coché tarif réduit
+                    // et la catégorie n'est pas la catégorie "normal"
+                    $billet->isBilletValid();
+
+                }
 
                 $validator = $this->get('validator');
 

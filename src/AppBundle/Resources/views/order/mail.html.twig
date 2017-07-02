@@ -1,0 +1,45 @@
+<img src="{{ image }}" />
+<br/>
+"Récapitulatif de votre commande :"  commande.name
+<br/>
+{{ commande.mail }}
+<br/>
+{{ commande.dateReservation|date('d/m/Y') }}
+<br/>
+
+<table>
+    <caption> "Vos billets : " </caption>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Pays</th>
+        <th>Catégorie du Billet</th>
+        <th>Prix du billet</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th colspan="4">Total Commande</th>
+        <th>
+            TOTAL
+        </th>
+    </tr>
+    </tfoot>
+    <tbody>
+
+    {#{% for ticket in commande.tickets %}#}
+        <tr>
+            <td>Nom ticket</td>
+            <td>Prénom ticket</td>
+            <td>Pays ticket</td>
+            <td>
+                Catégorie ticket
+            </td>
+
+            <td>Prix ticket</td>
+        </tr>
+    {#{% endfor %}#}
+
+    </tbody>
+</table>

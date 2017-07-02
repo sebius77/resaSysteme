@@ -26,6 +26,8 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="Nom", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2)
      */
     private $nom;
 
@@ -33,6 +35,8 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
+     * * @Assert\NotBlank()
+     * @Assert\Length(min=2)
      */
     private $prenom;
 
@@ -40,6 +44,7 @@ class Billet
      * @var \DateTime
      *
      * @ORM\Column(name="dateNaissance", type="date")
+     * @Assert\DateTime()
      */
     private $dateNaissance;
 
@@ -47,6 +52,8 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="nationalite", type="string", length=255)
+     * * @Assert\NotBlank()
+     * @Assert\Length(min=2)
      */
     private $nationalite;
 
@@ -262,7 +269,10 @@ class Billet
         $tarifReduit = $this->getTarifReduit();
         $categorie = $this->getCategorie()->getNom();
 
-        if(($tarifReduit === true) && ($categorie === 'reduit'))
+        if(($tarifReduit === true) && ($categorie === 'normal'))
+        {
+            return true;
+        } else if (($tarifReduit === false) && ($categorie === 'normal'))
         {
             return true;
         } else

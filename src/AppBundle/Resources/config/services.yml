@@ -15,3 +15,9 @@ services:
 
     app.paiementStripe:
         class: AppBundle\Services\PaiementStripe
+
+    app.envoiMail:
+        class: AppBundle\Services\EnvoiMail
+        arguments:
+            - "@mailer"
+            - "@templating"

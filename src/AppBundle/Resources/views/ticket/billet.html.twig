@@ -13,7 +13,23 @@
 
 {% block body %}
 
-    <h2 class="text-center">Billeterie</h2>
+    {{ include("AppBundle:ticket:bandeau.html.twig") }}
+
+    <div class="row">
+        <div class="col-md-3">
+            <h3><span class="label label-primary">Etape 1 : Sélection Date</span></h3>
+        </div>
+        <div class="col-md-3">
+            <h3><span class="label label-default">Etape 2 : Choix Billets</span></h3>
+        </div>
+        <div class="col-md-3">
+            <h3><span class="label label-default">Etape 3 : Confirmation</span></h3>
+        </div>
+        <div class="col-md-3">
+            <h3><span class="label label-default">Etape 4 : Paiement</span></h3>
+        </div>
+    </div>
+    <br/>
 
     <div class="container"></div>
 
@@ -30,7 +46,15 @@
         {% endfor %}
     </div>
     Nombre billet commandé {{ nbreBillet }}
-    {{ form(formBillet) }}
+
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            {{ form(formBillet) }}
+        </div>
+
+    </div>
+
+
 
 
 

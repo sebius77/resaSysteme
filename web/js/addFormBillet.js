@@ -5,7 +5,6 @@ $(document).ready(function() {
         // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
         var index = $container.find(':input').length;
 
-
         // La fonction qui ajoute un formulaire CategoryType
         function addBillet($container) {
             // Dans le contenu de l'attribut « data-prototype », on remplace :
@@ -15,6 +14,7 @@ $(document).ready(function() {
                 .replace(/__name__label__/g, 'Billet n°' + (index+1))
                 .replace(/__name__/g,        index)
             ;
+
 
             // On crée un objet jquery qui contient ce template
             var $prototype = $(template);
@@ -26,15 +26,12 @@ $(document).ready(function() {
             index++;
         }
 
-
         var nbreBillet = $('#formBillets').attr('nbre');
-        //alert(nbreBillet);
 
         // En fonction du nombre de billet on ajoute le ou les formulaires
         for(var i = 1 ; i<= nbreBillet; i++)
         {
             addBillet($container);
         }
-
 
 });

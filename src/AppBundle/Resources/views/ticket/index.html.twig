@@ -1,33 +1,36 @@
 {# On utilise le layout général, qui se situe dans ce même AppBundle #}
 {% extends "::base.html.twig" %}
 
+{% block title %}
+    Billetterie - {{ parent() }}
+{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 
 
-
-{% block title %}
-    Billetterie - {{ parent() }}
-{% endblock %}
-
 {% block body %}
 
-
-    <div class="row">
-        <div id="billetterie" class="col-md-12">
-            <h3 class="text-center">Billeterie</h3>
-        </div>
-    </div>
-
+    {{ include("AppBundle:ticket:bandeau.html.twig") }}
 
     <div class="container"></div>
 
     <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">Affichage des étapes de la commande</h1>
+        <div class="col-md-3">
+            <h3><span class="label label-default">Etape 1 : Sélection Date</span></h3>
+        </div>
+        <div class="col-md-3">
+            <h3><span class="label label-default">Etape 2 : Choix Billets</span></h3>
+        </div>
+        <div class="col-md-3">
+            <h3><span class="label label-default">Etape 3 : Confirmation</span></h3>
+        </div>
+        <div class="col-md-3">
+            <h3><span class="label label-default">Etape 4 : Paiement</span></h3>
         </div>
     </div>
+    <br/>
     <div class="row">
     {% for message in app.flashes('notice') %}
         <div class="alert alert-warning">
