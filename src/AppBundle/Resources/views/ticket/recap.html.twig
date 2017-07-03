@@ -17,11 +17,7 @@
 
     <div class="container"></div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">Affichage des étapes de la commande</h1>
-        </div>
-    </div>
+
     <div class="row">
         {% for message in app.flashes('notice') %}
             <div class="alert alert-warning">
@@ -33,16 +29,29 @@
 
 
     <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Catégorie du billet</th>
+                <th>Prix</th>
+            </tr>
+            </thead>
         {% for billet in commande.billets %}
-            {{ billet.nom }}
-            {{ billet.prenom }}
-            {{ billet.dateNaissance|date("d/m/Y") }}
-            {{ billet.categorie.nom }}
-            {{ billet.categorie.tarif }}
-            <br />
+            <tr>
+            <td>{{ billet.nom }}</td>
+                <td>{{ billet.prenom }}</td>
+                <td>{{ billet.dateNaissance|date("d/m/Y") }}</td>
+                <td>{{ billet.categorie.nom }}</td>
+                <td>{{ billet.categorie.tarif }} €</td>
+            </tr>
         {% endfor %}
+            <tfoot><strong>TOTAL Commande : </strong> {{ commande.prixCommande }} €</tfoot>
+        </table>
 
-        TOTAL Commande : €{{ commande.prixCommande }}
+
 
     </div>
 

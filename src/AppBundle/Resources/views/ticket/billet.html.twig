@@ -34,11 +34,6 @@
     <div class="container"></div>
 
     <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">Affichage des étapes de la commande</h1>
-        </div>
-    </div>
-    <div class="row">
         {% for message in app.flashes('notice') %}
             <div class="alert alert-warning">
                 {{ message }}
@@ -47,10 +42,29 @@
     </div>
     Nombre billet commandé {{ nbreBillet }}
 
+    {{ form_start(form) }}
     <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            {{ form(formBillet) }}
+
+        {% for billet in form.billets %}
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Billet</div>
+                <div class="panel-body">
+                    {{ form_row(billet.nom) }}
+                    {{ form_row(billet.prenom) }}
+                    {{ form_row(billet.dateNaissance) }}
+                    {{ form_row(billet.tarifReduit) }}
+                    {{ form_row(billet.nationalite) }}
+                </div>
+            </div>
         </div>
+        {% endfor %}
+
+
+        {{ form_end(form) }}
+
+
+
 
     </div>
 

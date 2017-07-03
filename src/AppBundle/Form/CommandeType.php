@@ -24,11 +24,24 @@ class CommandeType extends AbstractType
     {
         $builder
             ->add("dateReservation", DateTimeType::class, array(
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'attr' => array(
+                    'style' => 'display:none'
+                ),
+                'label' => false
             ))
-            ->add("nbreBillet", IntegerType::class)
+            ->add("nbreBillet", IntegerType::class, array(
+                'attr' => array(
+                    'style' => 'display:none'
+                ),
+                'label' => false
+            ))
             ->add("demiJournee", CheckboxType::class, array(
                 'required' => false,
+                'attr' => array(
+                    'style' => 'display:none'
+                ),
+                'label' => false
 
             ))
             ->add('billets', CollectionType::class, array(

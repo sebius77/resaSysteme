@@ -49,8 +49,6 @@ class TicketController extends Controller {
             // billets pour le jour sélectionné
             $stockBillet = $em->getRepository('AppBundle:Commande')->calculTotalBilletJour($commande->getDateReservation());
 
-            //$stockBillet = (int) $stockBillet[0][1];
-            //$stockRestant = 1000 - $stockBillet;
 
             // nombre billet
             $nbreBillet = $commande->getNbreBillet();
@@ -62,7 +60,7 @@ class TicketController extends Controller {
             if($stock->insuffisant($stockBillet,$nbreBillet))
             {
                 $request->getSession()->getFlashBag()->add('notice',
-                    'Il n\, y a plus suffisament de places pour ce jour. Le stock est de : ' . $stockRestant);
+                    'Il n\, y a plus suffisament de places pour ce jour. Le stock restant est de : ' . $stockBillet[0][1]);
 
                 return $this->redirectToRoute('ticketing');
             }
@@ -101,9 +99,15 @@ class TicketController extends Controller {
         // On récupère la commande de la session
         $commande = $request->getSession()->get('commande');
 
-       $formBillet = $this->get('form.factory')->create(CommandeType::class, $commande);
+        // Dans le cas ou l'on tenterait d'accéder à la page sans être passé par l'étape 1
+        if($commande === null)
+        {
+            return $this->redirectToRoute('ticketing');
+        }
 
-        if($request->isMethod('POST') && $formBillet->handleRequest($request)->isValid()) {
+       $form = $this->get('form.factory')->create(CommandeType::class, $commande);
+
+        if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
             // on appelle le service app.verifCat pour déterminer la catégorie du billet
             $verifCat = $this->container->get('app.verifCat');
@@ -176,7 +180,7 @@ class TicketController extends Controller {
 
 
        return $this->render('AppBundle:Ticket:billet.html.twig', array(
-           'formBillet' => $formBillet->createView(),
+           'form' => $form->createView(),
            'nbreBillet' => $commande->getNbreBillet()
        ));
 

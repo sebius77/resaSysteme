@@ -12,6 +12,7 @@ class VerifStockTest extends TestCase
         $stock = new VerifStock();
         $result = $stock->insuffisant(995, 10);
 
+
         // assert that your calculator added the numbers correctly!
         $this->assertEquals(true, $result);
     }
