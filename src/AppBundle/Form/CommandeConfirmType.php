@@ -21,7 +21,7 @@ class CommandeConfirmType extends AbstractType
             ->remove('demiJournee')
             ->remove('billets')
             ->remove('Etape suivante')
-            ->add('mail', TextType::class)
+            ->remove('mail')
             ->add('Confirmez', SubmitType::class)
         ;
 

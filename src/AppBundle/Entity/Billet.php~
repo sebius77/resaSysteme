@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Billet
@@ -25,6 +26,8 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="Nom", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2)
      */
     private $nom;
 
@@ -32,6 +35,8 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
+     * * @Assert\NotBlank()
+     * @Assert\Length(min=2)
      */
     private $prenom;
 
@@ -39,15 +44,18 @@ class Billet
      * @var \DateTime
      *
      * @ORM\Column(name="dateNaissance", type="date")
+     * @Assert\DateTime()
      */
     private $dateNaissance;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nationalite", type="string", length=255)
+     * @ORM\Column(name="pays", type="string", length=255)
+     * * @Assert\NotBlank()
+     * @Assert\Length(min=2)
      */
-    private $nationalite;
+    private $pays;
 
     /**
      * @var bool
@@ -58,15 +66,23 @@ class Billet
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Commande",inversedBy="Commande")
+     * @ORM\ManyToOne(targetEntity="Commande",inversedBy="Commande", cascade={"persist"})
      */
     private $commande;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Categorie", inversedBy="Categorie")
+     * @var
+     *
      */
     private $categorie;
+
+
+    /**
+     * @var bool
+     */
+    private $valid;
+
 
     /**
      * Get id
@@ -151,27 +167,27 @@ class Billet
     }
 
     /**
-     * Set nationalite
+     * Set pays
      *
-     * @param string $nationalite
+     * @param string $pays
      *
      * @return Billet
      */
-    public function setNationalite($nationalite)
+    public function setPays($pays)
     {
-        $this->nationalite = $nationalite;
+        $this->pays = $pays;
 
         return $this;
     }
 
     /**
-     * Get nationalite
+     * Get pays
      *
      * @return string
      */
-    public function getNationalite()
+    public function getPays()
     {
-        return $this->nationalite;
+        return $this->pays;
     }
 
     /**
@@ -222,4 +238,27 @@ class Billet
         return $this->commande;
     }
 
+    
+
+    /**
+     * @param bool
+     * @return bool
+     * @Assert\IsTrue(
+     *     message="Ce billet ne peut bénéficier du tarif réduit"
+     * )
+     */
+    public function isValid()
+    {
+        return $this->valid;
+    }
+    /**
+     * @param $val
+     */
+    public function setValid($val)
+    {
+        $this->valid = $val;
+    }
+
+
+    
 }

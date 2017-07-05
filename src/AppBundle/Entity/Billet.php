@@ -51,11 +51,11 @@ class Billet
     /**
      * @var string
      *
-     * @ORM\Column(name="nationalite", type="string", length=255)
+     * @ORM\Column(name="pays", type="string", length=255)
      * * @Assert\NotBlank()
      * @Assert\Length(min=2)
      */
-    private $nationalite;
+    private $pays;
 
     /**
      * @var bool
@@ -66,13 +66,14 @@ class Billet
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Commande",inversedBy="Commande")
+     * @ORM\ManyToOne(targetEntity="Commande",inversedBy="Commande", cascade={"persist"})
      */
     private $commande;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Categorie", inversedBy="Categorie")
+     * @var
+     *
      */
     private $categorie;
 
@@ -166,27 +167,27 @@ class Billet
     }
 
     /**
-     * Set nationalite
+     * Set pays
      *
-     * @param string $nationalite
+     * @param string $pays
      *
      * @return Billet
      */
-    public function setNationalite($nationalite)
+    public function setPays($pays)
     {
-        $this->nationalite = $nationalite;
+        $this->pays = $pays;
 
         return $this;
     }
 
     /**
-     * Get nationalite
+     * Get pays
      *
      * @return string
      */
-    public function getNationalite()
+    public function getPays()
     {
-        return $this->nationalite;
+        return $this->pays;
     }
 
     /**
@@ -237,30 +238,7 @@ class Billet
         return $this->commande;
     }
 
-
-    /**
-     * Set categorie
-     *
-     * @param \AppBundle\Entity\Categorie $categorie
-     *
-     * @return Billet
-     */
-    public function setCategorie(\AppBundle\Entity\Categorie $categorie = null)
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    /**
-     * Get categorie
-     *
-     * @return \AppBundle\Entity\Categorie
-     */
-    public function getCategorie()
-    {
-        return $this->categorie;
-    }
+    
 
     /**
      * @param bool
@@ -272,24 +250,7 @@ class Billet
     public function isValid()
     {
         return $this->valid;
-       /*
-        $tarifReduit = $this->getTarifReduit();
-        $categorie = $this->getCategorie()->getNom();
-
-        if(($tarifReduit === true) && ($categorie === 'normal'))
-        {
-            return true;
-        } else if (($tarifReduit === false) && ($categorie === 'normal'))
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
-       */
-
     }
-
     /**
      * @param $val
      */
@@ -299,4 +260,15 @@ class Billet
     }
 
 
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(\AppBundle\Entity\Categorie $categorie)
+    {
+        $this->categorie = $categorie;
+    }
+
+    
 }

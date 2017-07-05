@@ -36,12 +36,6 @@ class Categorie
     private $tarif;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="Billet", mappedBy="Categorie")
-     */
-    private $billet;
-
-
 
     /**
      * Get id
@@ -100,5 +94,7 @@ class Categorie
     {
         return $this->tarif;
     }
+
+
 
 }

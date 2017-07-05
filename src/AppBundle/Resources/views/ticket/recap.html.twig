@@ -15,7 +15,21 @@
 
     {{ include("AppBundle:ticket:bandeau.html.twig") }}
 
-    <div class="container"></div>
+
+    <div class="row">
+    <div class="col-md-offset-4 col-md-4">
+        <h3><span class="label label-danger">Etape 3 : Récapitulatif et confirmation</span></h3>
+    </div>
+    {% set reduit = false %}
+     {% for billet in commande.billets %}
+         {% if billet.categorie == 'reduit' %}
+             {% set reduit = true %}
+         {% endif %}
+     {% endfor %}
+    {% if reduit == true %}
+    <div class="col-md-4 alert alert-danger">Pour les biilets à "tarif réduit",
+        il faudra vous munir d'un justificatif à présenter à l'accueil du musée.</div>
+    {% endif %}
 
 
     <div class="row">
@@ -25,7 +39,6 @@
             </div>
         {% endfor %}
     </div>
-    Nombre de billet : {{ commande.nbreBillet }}
 
 
     <div class="row">
@@ -48,7 +61,7 @@
                 <td>{{ billet.categorie.tarif }} €</td>
             </tr>
         {% endfor %}
-            <tfoot><strong>TOTAL Commande : </strong> {{ commande.prixCommande }} €</tfoot>
+            <tr><td colspan="4" class="text-center"><strong>TOTAL COMMANDE</strong></td><td>{{ commande.prixCommande }} €</td></tr>
         </table>
 
 

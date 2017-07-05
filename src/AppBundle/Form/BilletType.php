@@ -28,7 +28,7 @@ class BilletType extends AbstractType
                     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour'
                 ),
             ))
-            ->add('nationalite', TextType::class)
+            ->add('pays', TextType::class)
             ->add('tarifReduit', CheckboxType::class, array('required' => false))
             ;
     }

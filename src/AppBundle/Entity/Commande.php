@@ -25,7 +25,7 @@ class Commande
     /**
      * @var int
      *
-     * @ORM\OneToMany(targetEntity="Billet", mappedBy="Commande")
+     * @ORM\OneToMany(targetEntity="Billet", mappedBy="Commande", cascade={"persist"})
      *
      *
      */
@@ -85,6 +85,12 @@ class Commande
      */
     private $mail;
 
+    /**
+     * @var
+     * @ORM\Column(name="numCommande", type="string",length=255, unique=true)
+     **/
+    private $numCommande;
+
     
     /**
      * Get id
@@ -96,6 +102,20 @@ class Commande
         return $this->id;
     }
 
+    /**
+     * @var
+     * @return mixed
+     */
+    public function getNumCommande()
+    {
+        return $this->numCommande;
+    }
+
+
+    public function setNumCommande($num)
+    {
+        $this->numCommande = $num;
+    }
 
 
     /**
@@ -128,6 +148,7 @@ class Commande
     {
         $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dateCommande = new \DateTime();
+        $this->numCommande = uniqid();
     }
 
     /**

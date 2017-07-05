@@ -36,12 +36,6 @@ class Categorie
     private $tarif;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="Billet", mappedBy="Categorie")
-     */
-    private $billet;
-
-
 
     /**
      * Get id
@@ -101,45 +95,6 @@ class Categorie
         return $this->tarif;
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->billet = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
-    /**
-     * Add billet
-     *
-     * @param \AppBundle\Entity\Billet $billet
-     *
-     * @return Categorie
-     */
-    public function addBillet(\AppBundle\Entity\Billet $billet)
-    {
-        $this->billet[] = $billet;
 
-        return $this;
-    }
-
-    /**
-     * Remove billet
-     *
-     * @param \AppBundle\Entity\Billet $billet
-     */
-    public function removeBillet(\AppBundle\Entity\Billet $billet)
-    {
-        $this->billet->removeElement($billet);
-    }
-
-    /**
-     * Get billet
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getBillet()
-    {
-        return $this->billet;
-    }
 }

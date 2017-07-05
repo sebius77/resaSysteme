@@ -16,18 +16,17 @@
     {{ include("AppBundle:ticket:bandeau.html.twig") }}
 
     <div class="row">
-        <div class="col-md-3">
-            <h3><span class="label label-primary">Etape 1 : Sélection Date</span></h3>
+        <div class="col-md-offset-4 col-md-4">
+            <h3><span class="label label-danger">Etape 2 : Choix Billets</span></h3>
         </div>
-        <div class="col-md-3">
-            <h3><span class="label label-default">Etape 2 : Choix Billets</span></h3>
-        </div>
-        <div class="col-md-3">
-            <h3><span class="label label-default">Etape 3 : Confirmation</span></h3>
-        </div>
-        <div class="col-md-3">
-            <h3><span class="label label-default">Etape 4 : Paiement</span></h3>
-        </div>
+        <div class="col-md-offset-1 col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Commande n° {{ commande.numCommande }}</div>
+                    <div class="panel-body">
+                        Reservation le : {{ commande.dateReservation|date('d/m/Y') }} <br/>
+                        Nombre de Billet : {{ nbreBillet }}
+                    </div>
+            </div>
     </div>
     <br/>
 
@@ -40,7 +39,7 @@
             </div>
         {% endfor %}
     </div>
-    Nombre billet commandé {{ nbreBillet }}
+
 
     {{ form_start(form) }}
     <div class="row">
@@ -54,7 +53,7 @@
                     {{ form_row(billet.prenom) }}
                     {{ form_row(billet.dateNaissance) }}
                     {{ form_row(billet.tarifReduit) }}
-                    {{ form_row(billet.nationalite) }}
+                    {{ form_row(billet.pays) }}
                 </div>
             </div>
         </div>

@@ -19,6 +19,10 @@ class PrixCommande {
 
         $sousTotal = 0;
 
+
+        // Il faut corriger ici pour ajouter au service, en argument, le repository
+        // category
+
         foreach($billets as $billet)
         {
             $prixBillet = $billet->getCategorie()->getTarif();

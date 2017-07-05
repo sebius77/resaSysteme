@@ -181,7 +181,8 @@ class TicketController extends Controller {
 
        return $this->render('AppBundle:Ticket:billet.html.twig', array(
            'form' => $form->createView(),
-           'nbreBillet' => $commande->getNbreBillet()
+           'nbreBillet' => $commande->getNbreBillet(),
+           'commande' => $commande
        ));
 
     }

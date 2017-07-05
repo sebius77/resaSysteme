@@ -18,15 +18,21 @@ class PaiementStripe {
 
         // Get the credit card details submitted by the form
         $token = $_POST['stripeToken'];
+        $mail = $_POST['stripeEmail'];
+
+        $commande->setMail($mail);
 
         // Create a charge: this will charge the user's card
         try {
+
             $charge = \Stripe\Charge::create(array(
                 "amount" => $prixCommande, // Amount in cents
                 "currency" => "eur",
                 "source" => $token,
-                "description" => "Paiement Stripe - Billetterie Louvre"
+                "description" => "Paiement Stripe - Billetterie Louvre",
             ));
+
+
             return true;
         } catch(\Stripe\Error\Card $e) {
 

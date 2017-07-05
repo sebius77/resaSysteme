@@ -40,7 +40,7 @@ class EnvoiMail {
     }
 
     public function sendMail(Commande $commande) {
-        $subject = "Commande n° " . uniqid();
+        $subject = "Commande n° " . $commande->getNumCommande();
         $to = $commande->getMail();
         $this->sendMessage($to, $subject, $commande);
     }

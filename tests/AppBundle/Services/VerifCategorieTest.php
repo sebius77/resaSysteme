@@ -14,14 +14,17 @@ class VerifCategorieTest extends TestCase
         $date1 = new \DateTime('10-05-1977');
         $date2 = new \DateTime('17-11-1952');
         $date3 = new \DateTime('21-06-2010');
+        $date4 = new \DateTime('12-06-2004');
 
         $result1 = $verifCategorie->determineCat($date1);
         $result2 = $verifCategorie->determineCat($date2);
         $result3 = $verifCategorie->determineCat($date3);
+        $result4 = $verifCategorie->determineCat($date4);
 
         // assert that your calculator added the numbers correctly!
         $this->assertEquals('normal', $result1);
         $this->assertEquals('senior', $result2);
         $this->assertEquals('enfant', $result3);
+        $this->assertEquals('normal', $result4);
     }
 }

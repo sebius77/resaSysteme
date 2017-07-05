@@ -56,9 +56,9 @@ class OrderController extends Controller {
             $mail->sendMail($commande);
 
             // On fait appel à l'EntityManager pour enregistrer la commande en base.
-            //$em = $this->getDoctrine()->getManager();
-            //$em->persist($commande);
-            //$em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($commande);
+            $em->flush();
 
 
             $this->addFlash("success","Votre paiement est validé!!!");

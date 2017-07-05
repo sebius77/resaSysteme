@@ -81,8 +81,15 @@ class Commande
     /**
      * @var
      * @ORM\Column(name="mail", type="string",length=255, unique=true)
+     * @Assert\Email()
      */
     private $mail;
+
+    /**
+     * @var
+     * @ORM\Column(name="numCommande", type="string",length=255, unique=true)
+     **/
+    private $numCommande;
 
     
     /**
@@ -95,6 +102,20 @@ class Commande
         return $this->id;
     }
 
+    /**
+     * @var
+     * @return mixed
+     */
+    public function getNumCommande()
+    {
+        return $this->numCommande;
+    }
+
+
+    public function setNumCommande($num)
+    {
+        $this->numCommande = $num;
+    }
 
 
     /**
@@ -127,6 +148,7 @@ class Commande
     {
         $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dateCommande = new \DateTime();
+        $this->numCommande = uniqid();
     }
 
     /**
@@ -233,5 +255,53 @@ class Commande
     public function getDemiJournee()
     {
         return $this->demiJournee;
+    }
+
+    /**
+     * Set dateCommande
+     *
+     * @param \DateTime $dateCommande
+     *
+     * @return Commande
+     */
+    public function setDateCommande($dateCommande)
+    {
+        $this->dateCommande = $dateCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCommande
+     *
+     * @return \DateTime
+     */
+    public function getDateCommande()
+    {
+        return $this->dateCommande;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     *
+     * @return Commande
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
     }
 }
