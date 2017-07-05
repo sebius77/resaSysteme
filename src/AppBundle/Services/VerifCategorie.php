@@ -20,7 +20,10 @@ class VerifCategorie {
         $now = $now->format('d-m-Y');
         $now = new \DateTime($now);
 
+
+
         $age = $now->diff($date)->format('%y');
+
 
         //return $age;
 
@@ -29,13 +32,13 @@ class VerifCategorie {
             case $age < 4:
                 $cat = "gratuit";
                 break;
-            case  $age < 12 && $age > 4:
+            case  $age <= 12 && $age >= 4:
                 $cat = "enfant";
                 break;
             case $age > 12 && $age < 60:
                 $cat = "normal";
                 break;
-            case $age > 60:
+            case $age >= 60:
                 $cat = "senior";
                 break;
             default:

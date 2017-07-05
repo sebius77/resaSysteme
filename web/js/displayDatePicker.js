@@ -11,7 +11,7 @@ $( function() {
      */
     $("#datePicker").datepicker({
         minDate: 0,
-        maxDate: "+2m",
+        maxDate: "+6m",
         altField: "#actualDate",
         dateFormat: "dd-mm-yy",
         // Désactivation des mardis et dimanche

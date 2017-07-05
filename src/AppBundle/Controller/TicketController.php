@@ -135,6 +135,8 @@ class TicketController extends Controller {
                 // avec tout ses attributs
                 $categorie = $repository->findOneBy(array('nom' => $cat));
 
+
+
                 // Puis si la catégorie existe, nous ajoutons la catégorie au billet
                 // Si la catégorie n'existe pas avec la date renseignée
                 // Cela signifie que le billet est gratuit et qu'il s'agit d'un enfant
