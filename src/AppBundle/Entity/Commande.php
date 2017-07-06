@@ -63,7 +63,7 @@ class Commande
      *     maxMessage="Votre commande ne peux excéder 10 billets"
      * )
      */
-    private $nbreBillet;
+    private $nbreBillet = 0;
 
     /**
      * @var bool
@@ -80,7 +80,7 @@ class Commande
 
     /**
      * @var
-     * @ORM\Column(name="mail", type="string",length=255, unique=true)
+     * @ORM\Column(name="mail", type="string",length=255, unique=false)
      * @Assert\Email()
      */
     private $mail;

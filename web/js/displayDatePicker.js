@@ -30,6 +30,7 @@ $( function() {
         },
 
 
+
         /**
          * @param date
          * Fonction qui va appeler une requête Ajax en transmettant
@@ -39,25 +40,26 @@ $( function() {
         onSelect: function(date) {
 
             var jour = $('#commande_jour_dateReservation');
-            var demi = $('#commande_demi_dateReservation');
+            //var demi = $('#commande_demi_dateReservation');
 
 
             if (jour)
             {
-                $('#commande_jour_dateReservation').val(date);
+                $(jour).val(date);
             }
 
-            if (demi)
+           /* if (demi)
             {
                 $('#commande_demi_dateReservation').val(date);
             }
-
+            */
 
 
             // Ici une requ^te ajax qui tape sur l'url http://localhost/resaSysteme/web/app_dev.php/calculBillet
 
             // Je n'arrive pas à taper sur le contrôleur avec ma requête Ajax erreur #14683
 
+            /*
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -72,10 +74,8 @@ $( function() {
                 }
             });
 
-
+            */
         }
+        });
 
-        }
-    );
-
-} );
+});

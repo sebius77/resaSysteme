@@ -14,19 +14,10 @@ class LoadCommande implements FixtureInterface
     {
         // Liste des noms de catégorie à ajouter
         $commandes = array(
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-10',120,100),
-            array ('2017-07-12',120,10),
-
+            array ('2017-07-12',120,995),
+            array ('2017-07-10',120,900),
+            array ('2017-07-10',120,92),
+            array ('2017-07-10',120,4),
         );
 
 
@@ -36,6 +27,7 @@ class LoadCommande implements FixtureInterface
             $commande->setDateReservation(new \DateTime($tab[0]));
             $commande->setPrixCommande($tab[1]);
             $commande->setNbreBillet($tab[2]);
+            $commande->setMail('sebgaudin@yahoo.fr');
 
             // On la persiste
             $manager->persist($commande);

@@ -1,0 +1,20 @@
+{# On utilise le layout général, qui se situe dans ce même AppBundle #}
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+
+{% block title %}
+    Page non trouvée - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+
+    <h1>La page que vous tentez d'accéder n'a pas été trouvée !!!</h1>
+
+
+{% endblock %}

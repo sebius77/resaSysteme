@@ -14,6 +14,12 @@ class CommandeRepository extends EntityRepository
 {
 
 
+    /**
+     * @param $dateResa
+     * @return array
+     * Méthode permettant de récupérer les commandes du jour réservé et de faire la somme
+     * des billets commandé pour savoir si le stock est toujours disponible.
+     */
     public function calculTotalBilletJour($dateResa)
     {
         return $this->createQueryBuilder('c')

@@ -100,7 +100,7 @@ class TicketController extends Controller {
         $commande = $request->getSession()->get('commande');
 
         // Dans le cas ou l'on tenterait d'accéder à la page sans être passé par l'étape 1
-        if($commande === null)
+        if(!isset($commande))
         {
             return $this->redirectToRoute('ticketing');
         }
@@ -124,6 +124,10 @@ class TicketController extends Controller {
             // Boucle pour l'ajout des catégories aux billets
             foreach($billets as $billet)
             {
+                // Dans le cas ou une erreur a été levé pour les catégories réduites
+                // Je réinitialise la méthode valid des billets
+                $billet->setValid(true);
+
                 // Pour chaque billet, je récupère la date de naissance
                 $birthday = $billet->getDateNaissance();
 
